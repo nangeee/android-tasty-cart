@@ -42,6 +42,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
     implementation ("com.google.firebase:firebase-auth")
+    implementation ("com.google.android.gms:play-services-auth")
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.code.gson:gson:2.10.1")
