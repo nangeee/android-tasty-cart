@@ -49,6 +49,8 @@ class SignupActivity : AppCompatActivity() {
                                     Toast.makeText(this, "Profile update failed: ${updateTask.exception?.message}", Toast.LENGTH_SHORT).show()
                                 }
                             }
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        finish() // Close SignupActivity
                     } else {
                         Toast.makeText(this, "Sign up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
