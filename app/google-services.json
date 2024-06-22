@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "558630068029",
+    "firebase_url": "https://tastycart-4faab-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tastycart-4faab",
+    "storage_bucket": "tastycart-4faab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558630068029:android:e7ca9fae45e7cb1fc02f54",
+        "android_client_info": {
+          "package_name": "edu.skku.cs.tastycart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558630068029-96722osp9p3afluthb84cemljo3nhgqv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.skku.cs.tastycart",
+            "certificate_hash": "6aab723e163d71cc0f34c7b9a99305ec5c285285"
+          }
+        },
+        {
+          "client_id": "558630068029-okf9nbs5jeunmfg8uba9icbpr5qjl9b6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnldsKAITgFpuOsxSTCYJKrltsO6c4FyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558630068029-okf9nbs5jeunmfg8uba9icbpr5qjl9b6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
