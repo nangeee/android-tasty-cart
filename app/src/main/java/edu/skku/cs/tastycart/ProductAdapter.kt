@@ -1,6 +1,7 @@
 package edu.skku.cs.tastycart
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +20,16 @@ class ProductAdapter(private val context: Context, private val productList: List
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         holder.productNameTextView.text = product.productName
-        holder.originalPriceTextView.text = "$" + "${product.originalPrice}"
+        holder.originalPriceTextView.text = "$" + "%.2f".format(product.originalPrice)
         holder.productImageView.setImageResource(R.drawable.product_image) // Placeholder image
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ProductDetailActivity::class.java)
+            intent.putExtra("productName", product.productName)
+            intent.putExtra("productPrice", product.originalPrice)
+            intent.putExtra("productImage", R.drawable.product_image) // Placeholder image
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -4,37 +4,51 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
+import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class CartAdapter(private val context: Context, private val cartList: ArrayList<CartItem>) :
-    RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartItemAdapter(private val context: Context, private val cartList: ArrayList<CartItem>) : BaseAdapter() {
 
     private lateinit var databaseReference: DatabaseReference
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false)
-        return CartViewHolder(view)
+    override fun getCount(): Int {
+        return cartList.size
     }
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val cartItem = cartList[position]
-        holder.productNameTextView.text = cartItem.productName
-        holder.productPriceTextView.text = "$" + "%.2f".format(cartItem.productPrice)
-        holder.quantityTextView.text = cartItem.quantity.toString()
+    override fun getItem(position: Int): CartItem {
+        return cartList[position]
+    }
 
-        holder.plusButton.setOnClickListener {
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val inflater = LayoutInflater.from(context)
+        val itemView = convertView ?: inflater.inflate(R.layout.item_cart, parent, false)
+        val cartItem = getItem(position)
+
+        val productNameTextView = itemView.findViewById<TextView>(R.id.productNameTextView)
+        val productPriceTextView = itemView.findViewById<TextView>(R.id.productPriceTextView)
+        val quantityTextView = itemView.findViewById<TextView>(R.id.quantityTextView)
+        val plusButton = itemView.findViewById<TextView>(R.id.plusButton)
+        val minusButton = itemView.findViewById<TextView>(R.id.minusButton)
+        val deleteButton = itemView.findViewById<TextView>(R.id.deleteButton)
+
+        productNameTextView.text = cartItem.productName
+        productPriceTextView.text = "$" + "%.2f".format(cartItem.productPrice)
+        quantityTextView.text = cartItem.quantity.toString()
+
+        plusButton.setOnClickListener {
             cartItem.quantity++
             updateCartItem(cartItem)
             notifyDataSetChanged()
         }
 
-        holder.minusButton.setOnClickListener {
+        minusButton.setOnClickListener {
             if (cartItem.quantity > 1) {
                 cartItem.quantity--
                 updateCartItem(cartItem)
@@ -42,15 +56,13 @@ class CartAdapter(private val context: Context, private val cartList: ArrayList<
             }
         }
 
-        holder.deleteButton.setOnClickListener {
+        deleteButton.setOnClickListener {
             removeCartItem(cartItem)
-            cartList.removeAt(position)
+            cartList.remove(cartItem)
             notifyDataSetChanged()
         }
-    }
 
-    override fun getItemCount(): Int {
-        return cartList.size
+        return itemView
     }
 
     private fun updateCartItem(cartItem: CartItem) {
@@ -83,14 +95,5 @@ class CartAdapter(private val context: Context, private val cartList: ArrayList<
                 }
             }
         }
-    }
-
-    class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productNameTextView: TextView = itemView.findViewById(R.id.productNameTextView)
-        val productPriceTextView: TextView = itemView.findViewById(R.id.productPriceTextView)
-        val quantityTextView: TextView = itemView.findViewById(R.id.quantityTextView)
-        val plusButton: Button = itemView.findViewById(R.id.plusButton)
-        val minusButton: Button = itemView.findViewById(R.id.minusButton)
-        val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
     }
 }
