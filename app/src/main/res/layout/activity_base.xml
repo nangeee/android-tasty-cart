@@ -3,17 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 상단 콘텐츠 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productsRecyclerView"
+    <!-- 이 부분은 각 액티비티에서 콘텐츠를 표시할 공간 -->
+    <FrameLayout
+        android:id="@+id/activity_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
         android:layout_marginBottom="56dp" /> <!-- 네비게이션 바 높이만큼 마진 추가 -->
 
     <!-- 하단 네비게이션 바 -->
     <include
-        android:id="@+id/bottomNavigationView"
         layout="@layout/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
