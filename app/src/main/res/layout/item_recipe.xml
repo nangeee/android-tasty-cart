@@ -29,12 +29,12 @@
         android:layout_marginEnd="40dp"
         android:textSize="18sp"
         android:text="Recipe Name"
-        android:maxLines="2"
-        android:ellipsize="end"
         android:layout_alignParentTop="true"
         android:layout_alignTop="@id/recipeImageView"
         android:layout_alignBottom="@id/recipeImageView"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:maxLines="3"
+        android:ellipsize="none" />
 
     <TextView
         android:id="@+id/recipeIngredientsTextView"
@@ -45,6 +45,6 @@
         android:layout_marginStart="16dp"
         android:textSize="14sp"
         android:text="Ingredients"
-        android:maxLines="2"
-        android:ellipsize="end" />
+        android:maxLines="4"
+        android:ellipsize="none" />
 </RelativeLayout>
