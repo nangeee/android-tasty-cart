@@ -9,7 +9,7 @@ Tasty Cart는 사용자가 식료품과 재료를 구매할 수 있도록 돕는
 2024.06.22-2024.06.23
 
 
-## 🗝️ Development Environment
+## 🗝️ Technology Stack
 **IDE**: Android Studio
 
 **Programming Language**: Kotlin
