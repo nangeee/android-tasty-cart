@@ -37,7 +37,7 @@ Tasty Cart는 사용자가 식료품과 재료를 구매할 수 있도록 돕는
    - 레시피 제공 사이트 접속하여 상세정보 확인
 5. **레시피 북마크 기능**
    - 마음에 드는 레시피를 북마크에 저장
-   - Firebase Realtime Database에 실시간으로 데이터 동기
+   - Firebase Realtime Database에 실시간으로 데이터 동기화
 
 
 ## 🧀 Implementation Challenges
