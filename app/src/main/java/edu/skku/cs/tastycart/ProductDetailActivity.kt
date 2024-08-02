@@ -70,17 +70,17 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         goToCartButton.setOnClickListener {
-            val intent = Intent(this, CartActivity::class.java)
+            val intent = Intent(this, CartFragment::class.java)
             startActivity(intent)
         }
 
         viewRecommendedRecipesButton.setOnClickListener {
-            val intent = Intent(this, RecipeActivity::class.java)
+            val intent = Intent(this, RecipeFragment::class.java)
             startActivity(intent)
         }
 
         viewBookmarksButton.setOnClickListener {
-            val intent = Intent(this, RecipeBookmarkActivity::class.java)
+            val intent = Intent(this, RecipeBookmarkFragment::class.java)
             startActivity(intent)
         }
     }

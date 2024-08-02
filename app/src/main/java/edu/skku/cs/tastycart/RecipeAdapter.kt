@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-class RecipeAdapter(private val context: Context, private val recipes: List<RecipeActivity.Recipe>) : BaseAdapter() {
+class RecipeAdapter(private val context: Context, private val recipes: List<RecipeFragment.Recipe>) : BaseAdapter() {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val currentUser = firebaseAuth.currentUser
@@ -23,7 +23,7 @@ class RecipeAdapter(private val context: Context, private val recipes: List<Reci
         return recipes.size
     }
 
-    override fun getItem(position: Int): RecipeActivity.Recipe {
+    override fun getItem(position: Int): RecipeFragment.Recipe {
         return recipes[position]
     }
 

@@ -44,12 +44,12 @@ class SignupActivity : AppCompatActivity() {
                             ?.addOnCompleteListener { updateTask ->
                                 if (updateTask.isSuccessful) {
                                     Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()
-                                    startActivity(Intent(this, HomeActivity::class.java))
+                                    startActivity(Intent(this, MainActivity::class.java))
                                 } else {
                                     Toast.makeText(this, "Profile update failed: ${updateTask.exception?.message}", Toast.LENGTH_SHORT).show()
                                 }
                             }
-                        startActivity(Intent(this, HomeActivity::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                         finish() // Close SignupActivity
                     } else {
                         Toast.makeText(this, "Sign up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()

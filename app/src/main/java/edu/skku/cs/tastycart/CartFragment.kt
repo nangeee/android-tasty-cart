@@ -2,15 +2,18 @@ package edu.skku.cs.tastycart
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class CartActivity : AppCompatActivity() {
+class CartFragment : Fragment() {
 
     private lateinit var cartListView: ListView
     private lateinit var cartListAdapter: CartItemAdapter
@@ -20,17 +23,21 @@ class CartActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
 
-        cartListView = findViewById(R.id.cartListView)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_cart, container, false)
+
+        cartListView = view.findViewById(R.id.cartListView)
         cartList = ArrayList()
-        cartListAdapter = CartItemAdapter(this, cartList)
+        cartListAdapter = CartItemAdapter(requireContext(), cartList)
         cartListView.adapter = cartListAdapter
 
-        totalAmountTextView = findViewById(R.id.totalAmountTextView)
-        orderButton = findViewById(R.id.orderButton)
+        totalAmountTextView = view.findViewById(R.id.totalAmountTextView)
+        orderButton = view.findViewById(R.id.orderButton)
 
         firebaseAuth = FirebaseAuth.getInstance()
         val currentUser = firebaseAuth.currentUser
@@ -41,7 +48,10 @@ class CartActivity : AppCompatActivity() {
         orderButton.setOnClickListener {
             placeOrder()
         }
+
+        return view
     }
+
 
     private fun fetchCartItems() {
         Log.d("CartActivity", "Fetching cart items for user: ${firebaseAuth.currentUser?.uid}")
@@ -65,7 +75,10 @@ class CartActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e("CartActivity", "Failed to fetch cart items: ${error.message}")
-                Toast.makeText(this@CartActivity, "Failed to load cart items", Toast.LENGTH_SHORT).show()
+                // Fragment에서는 Activity와 달리 this를 사용하여 Context를 얻지 않고,
+                // requireContext(), getContext(), 또는 requireActivity()를 사용해야 함
+                // Toast.makeText(this@CartActivity, "Failed to load cart items", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to load cart items", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -80,12 +93,14 @@ class CartActivity : AppCompatActivity() {
 
     private fun placeOrder() {
         databaseReference.removeValue().addOnSuccessListener {
-            Toast.makeText(this, "Order placed successfully", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "Order placed successfully", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Order placed successfully", Toast.LENGTH_SHORT).show()
             cartList.clear()
             cartListAdapter.notifyDataSetChanged()
             totalAmountTextView.text = "Total: $0.00"
         }.addOnFailureListener {
-            Toast.makeText(this, "Failed to place order", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "Failed to place order", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Failed to place order", Toast.LENGTH_SHORT).show()
         }
     }
 }

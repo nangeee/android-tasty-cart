@@ -2,12 +2,15 @@ package edu.skku.cs.tastycart
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +19,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class RecipeActivity : AppCompatActivity() {
+class RecipeFragment : Fragment() {
 
     private lateinit var recipesListView: ListView
     private lateinit var recipesAdapter: RecipeAdapter
@@ -24,12 +27,15 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipe)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_recipe, container, false)
 
-        recipesListView = findViewById(R.id.recipesListView)
-        recipesAdapter = RecipeAdapter(this, recipesList)
+        recipesListView = view.findViewById(R.id.recipesListView)
+        recipesAdapter = RecipeAdapter(requireContext(), recipesList)
         recipesListView.adapter = recipesAdapter
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -39,7 +45,10 @@ class RecipeActivity : AppCompatActivity() {
             databaseReference = FirebaseDatabase.getInstance().getReference("cart").child(currentUser.uid)
             fetchCartItems()
         }
+
+        return view
     }
+
 
     private fun fetchCartItems() {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {

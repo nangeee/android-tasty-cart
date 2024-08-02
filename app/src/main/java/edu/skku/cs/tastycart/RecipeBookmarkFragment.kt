@@ -1,26 +1,32 @@
 package edu.skku.cs.tastycart
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ListView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class RecipeBookmarkActivity : AppCompatActivity() {
+class RecipeBookmarkFragment : Fragment() {
 
     private lateinit var bookmarkListView: ListView
     private lateinit var bookmarkAdapter: RecipeAdapter
-    private lateinit var bookmarkList: ArrayList<RecipeActivity.Recipe>
+    private lateinit var bookmarkList: ArrayList<RecipeFragment.Recipe>
     private lateinit var databaseReference: DatabaseReference
     private lateinit var firebaseAuth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipe_bookmark)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_recipe_bookmark, container, false)
 
-        bookmarkListView = findViewById(R.id.bookmarkListView)
+        bookmarkListView = view.findViewById(R.id.bookmarkListView)
         bookmarkList = ArrayList()
-        bookmarkAdapter = RecipeAdapter(this, bookmarkList)
+        bookmarkAdapter = RecipeAdapter(requireContext(), bookmarkList)
         bookmarkListView.adapter = bookmarkAdapter
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -30,7 +36,10 @@ class RecipeBookmarkActivity : AppCompatActivity() {
             databaseReference = FirebaseDatabase.getInstance().getReference("bookmarks").child(currentUser.uid)
             fetchBookmarkedRecipes()
         }
+
+        return view
     }
+
 
     private fun fetchBookmarkedRecipes() {
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -42,7 +51,7 @@ class RecipeBookmarkActivity : AppCompatActivity() {
                     val url = bookmarkSnapshot.child("url").getValue(String::class.java) ?: ""
                     val ingredientLines = bookmarkSnapshot.child("ingredientLines").getValue(object : GenericTypeIndicator<List<String>>() {})
 
-                    val recipe = RecipeActivity.Recipe(
+                    val recipe = RecipeFragment.Recipe(
                         label = label,
                         image = image,
                         url = url,

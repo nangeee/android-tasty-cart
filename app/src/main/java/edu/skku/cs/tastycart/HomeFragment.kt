@@ -1,12 +1,15 @@
 package edu.skku.cs.tastycart
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeFragment : Fragment() {
 
     private lateinit var productsRecyclerView: RecyclerView
     private lateinit var productAdapter: ProductAdapter
@@ -16,18 +19,26 @@ class HomeActivity : AppCompatActivity() {
     private var itemCount = 20 // 페이지 당 아이템 수
     private var lastVisibleItemKey: String? = null // 마지막 아이템의 키
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // LayoutInflater를 사용하여 Fragment의 레이아웃을 인플레이트
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        productsRecyclerView = findViewById(R.id.productsRecyclerView)
-        productsRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        // RecyclerView 및 어댑터 설정
+        productsRecyclerView = view.findViewById(R.id.productsRecyclerView)
+        productsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         productList = ArrayList()
-        productAdapter = ProductAdapter(this, productList)
+        // Context 사용 변경: Fragment에서는 requireContext()를 사용하여 Context를 얻음
+        // productAdapter = ProductAdapter(this, productList)
+        productAdapter = ProductAdapter(requireContext(), productList)
         productsRecyclerView.adapter = productAdapter
 
+        // Firebase Database 레퍼런스 설정
         databaseReference = FirebaseDatabase.getInstance().getReference("/products")
 
+        // 스크롤 리스너 추가
         productsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -40,7 +51,10 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-        loadMoreProducts() // 초기 로드
+        // 초기 데이터 로드
+        loadMoreProducts()
+
+        return view
     }
 
     private fun loadMoreProducts() {
