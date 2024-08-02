@@ -11,21 +11,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 초기 Fragment 설정
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        // 초기 Fragment 및 BottomNavigationView 설정
         if (savedInstanceState == null) {
             val fragmentName = intent.getStringExtra("fragment")
             when (fragmentName) {
-                "cart" -> loadFragment(CartFragment())
-                "recipe" -> loadFragment(RecipeFragment())
-                "bookmark" -> loadFragment(RecipeBookmarkFragment())
-                else -> loadFragment(HomeFragment())
+                "cart" -> {
+                    loadFragment(CartFragment())
+                    bottomNavigationView.selectedItemId = R.id.nav_cart
+                }
+                "recipe" -> {
+                    loadFragment(RecipeFragment())
+                    bottomNavigationView.selectedItemId = R.id.nav_recipe
+                }
+                "bookmark" -> {
+                    loadFragment(RecipeBookmarkFragment())
+                    bottomNavigationView.selectedItemId = R.id.nav_bookmark
+                }
+                else -> {
+                    loadFragment(HomeFragment())
+                    bottomNavigationView.selectedItemId = R.id.nav_home
+                }
             }
         }
 //        if (savedInstanceState == null) {
 //            bottomNavigationView.selectedItemId = R.id.nav_home
 //        }
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
