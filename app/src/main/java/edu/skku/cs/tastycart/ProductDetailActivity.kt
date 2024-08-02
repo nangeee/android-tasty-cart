@@ -90,9 +90,21 @@ class ProductDetailActivity : AppCompatActivity() {
 
     }
 
+    // MainActivity로 돌아갈 때 새로운 인스턴스를 시작하게 되면서 Activity 전환 간에 불필요한 화면이 쌓임
+    // -> 뒤로가기 눌렀을 때 ProductDetailActivity로 바로 돌아오지 않고 빈 화면이 뜸
+//    private fun navigateToFragment(fragmentName: String) {
+//        val intent = Intent(this, MainActivity::class.java)
+//        intent.putExtra("fragment", fragmentName)
+//        startActivity(intent)
+//    }
+
+    // MainActivity를 호출할 때 플래그를 사용하여 Activity 스택을 정리
     private fun navigateToFragment(fragmentName: String) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("fragment", fragmentName)
+        // FLAG_ACTIVITY_CLEAR_TOP: 대상 Activity가 스택의 상단에 이미 존재하면 해당 Activity 위의 모든 Activity를 제거하고, 그 Activity를 다시 사용
+        // FLAG_ACTIVITY_SINGLE_TOP: Activity가 스택의 맨 위에 이미 있는 경우 해당 Activity의 새로운 인스턴스를 만들지 않고 재사용
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
     }
 

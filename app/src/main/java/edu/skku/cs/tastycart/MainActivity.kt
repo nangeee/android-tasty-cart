@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 Fragment로 돌아갈 수 있도록 함
+//            .addToBackStack(null) // 백스택에 추가하여 뒤로 가기 버튼으로 이전 Fragment로 돌아갈 수 있도록 함
             .commit()
     }
 }
