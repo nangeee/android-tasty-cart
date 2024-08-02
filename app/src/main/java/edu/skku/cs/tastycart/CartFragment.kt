@@ -54,7 +54,7 @@ class CartFragment : Fragment() {
 
 
     private fun fetchCartItems() {
-        Log.d("CartActivity", "Fetching cart items for user: ${firebaseAuth.currentUser?.uid}")
+        Log.d("CartFragment", "Fetching cart items for user: ${firebaseAuth.currentUser?.uid}")
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -63,18 +63,18 @@ class CartFragment : Fragment() {
                     val cartItem = cartSnapshot.getValue(CartItem::class.java)
                     if (cartItem != null) {
                         cartList.add(cartItem)
-                        Log.d("CartActivity", "Item added: ${cartItem.productName} - ${cartItem.quantity}")
+                        Log.d("CartFragment", "Item added: ${cartItem.productName} - ${cartItem.quantity}")
                     }
                 }
                 if (cartList.isEmpty()) {
-                    Log.d("CartActivity", "No items in cart")
+                    Log.d("CartFragment", "No items in cart")
                 }
                 cartListAdapter.notifyDataSetChanged()
                 calculateTotalAmount()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("CartActivity", "Failed to fetch cart items: ${error.message}")
+                Log.e("CartFragment", "Failed to fetch cart items: ${error.message}")
                 // Fragment에서는 Activity와 달리 this를 사용하여 Context를 얻지 않고,
                 // requireContext(), getContext(), 또는 requireActivity()를 사용해야 함
                 // Toast.makeText(this@CartActivity, "Failed to load cart items", Toast.LENGTH_SHORT).show()

@@ -70,19 +70,30 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         goToCartButton.setOnClickListener {
-            val intent = Intent(this, CartFragment::class.java)
-            startActivity(intent)
+            navigateToFragment("cart")
         }
 
         viewRecommendedRecipesButton.setOnClickListener {
-            val intent = Intent(this, RecipeFragment::class.java)
-            startActivity(intent)
+            navigateToFragment("recipe")
         }
 
         viewBookmarksButton.setOnClickListener {
-            val intent = Intent(this, RecipeBookmarkFragment::class.java)
-            startActivity(intent)
+            navigateToFragment("bookmark")
         }
+    // Fragment로 전환한 후에는 Intent를 사용하여 Fragment를 이동하거나 시작할 수 없음
+    // Fragment는 Activity의 일부로 관리되므로, FragmentTransaction을 사용하여 Fragment를 전환해야 함
+    // ProductDetailActivity에서 다른 Fragment로 이동하려면 MainActivity로 돌아가서 Fragment를 전환해야 함
+//        goToCartButton.setOnClickListener {
+//            val intent = Intent(this, CartFragment::class.java)
+//            startActivity(intent)
+//        }
+
+    }
+
+    private fun navigateToFragment(fragmentName: String) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("fragment", fragmentName)
+        startActivity(intent)
     }
 
     private fun addToCart(userId: String, productName: String, productPrice: Double, quantity: Int) {
